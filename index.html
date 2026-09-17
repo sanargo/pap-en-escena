@@ -426,11 +426,6 @@ const CATEGORIES = {
   riesgo_fisico_concurrente: { label: "Físico + emocional", color: "var(--tag-fis)" }
 };
 
-// ── Link de la hoja de cálculo ──────────────────────────────────────────
-// Pega aquí la URL que da Google Sheets al usar Archivo → Compartir →
-// Publicar en la web → eligiendo la hoja de escenarios y formato CSV.
-// Si se deja vacío, o si la carga falla, la app sigue funcionando con
-// los escenarios de respaldo (DEFAULT_SCENARIOS) definidos abajo.
 const SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQrIPEamdKYi37bmBawHawThglTGDfOtWIx80Z0OBpUBuYy09CTtKitw9hhAwAKKOac2hmTNowG8ghe/pub?gid=627161382&single=true&output=csv";
 
 const DEFAULT_SCENARIOS = [
@@ -724,8 +719,7 @@ const DEFAULT_SCENARIOS = [
   }
 ];
 
-// Arreglo de trabajo que usa toda la app. Empieza con el respaldo y,
-// si la hoja de cálculo carga bien, se reemplaza por su contenido.
+// Arreglo de trabajo que usa toda la app. Empieza con el respaldo y, si la hoja de cálculo carga bien, se reemplaza por su contenido.
 let SCENARIOS = DEFAULT_SCENARIOS;
 
 const CATEGORIAS_VALIDAS = Object.keys(CATEGORIES);
@@ -825,7 +819,7 @@ const PROTOCOLS = {
   ACERCARSE: {
     nombre: "ACERCARSE",
     fuente: "Muñoz, Ausín y Pérez-Santos (2004/2007)",
-    nota: "Las fuentes académicas describen 8 etapas para este protocolo. Si en el curso lo vieron como 9 pasos, conviene ajustar esta lista con el material exacto de la instructora antes de usarla como referencia final.",
+    nota: "Las fuentes académicas describen 8 etapas para este protocolo. Conviene ajustar esta lista con el material exacto de la instructora antes de usarla como referencia final.",
     pasos: [
       { nombre: "Ambiente", desc: "Hacerse una imagen general de la escena: qué ocurrió, quiénes están presentes y qué necesidades inmediatas hay." },
       { nombre: "Contacto", desc: "Establecer una relación de respeto y distanciamiento psicológico adecuado con la persona afectada." },
@@ -893,7 +887,7 @@ function buildHome() {
 
   const note = document.createElement("div");
   note.className = "note";
-  note.innerHTML = `<strong>Nota:</strong> los escenarios y protocolos de referencia son un borrador de trabajo. Revísalos y ajústalos con el contenido exacto visto en clase antes de usarlos como material final.`;
+  note.innerHTML = `<strong>Nota:</strong> los escenarios y protocolos de referencia son un borrador de trabajo.`;
   frag.appendChild(note);
 
   const chips = document.createElement("div");
