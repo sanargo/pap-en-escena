@@ -1,0 +1,32 @@
+{
+  "name": "pap-en-escena",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d dist"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sanargo/pap-en-escena.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/sanargo/pap-en-escena/issues"
+  },
+  "homepage": "https://github.com/sanargo/pap-en-escena#readme",
+  "devDependencies": {
+    "gh-pages": "^6.3.0",
+    "vite": "^8.3.0"
+  },
+  "dependencies": {
+    "papaparse": "^5.7.0"
+  }
+}

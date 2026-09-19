@@ -1,0 +1,975 @@
+export const CATEGORIES = {
+crisis_individual: {
+    label: "Crisis individual",
+    color: "var(--tag-ind)",
+},
+crisis_colectiva: {
+    label: "Crisis colectiva",
+    color: "var(--tag-col)",
+},
+ninos: { label: "Niños", color: "var(--tag-nin)" },
+riesgo_autolesion: {
+    label: "Riesgo de autolesión",
+    color: "var(--tag-ris)",
+},
+agresividad: { label: "Agresividad", color: "var(--tag-agr)" },
+adultos_mayores: { label: "Adultos mayores", color: "var(--tag-may)" },
+riesgo_fisico_concurrente: {
+    label: "Físico + emocional",
+    color: "var(--tag-fis)",
+},
+};
+
+export const DEFAULT_SCENARIOS = [
+{
+    id: "escenario_01",
+    titulo: "Accidente de tránsito con persona en shock",
+    categoria: "crisis_individual",
+    protocolo_asociado: "ABCDE",
+    momentos: [
+    {
+        narrativa:
+        "Llegas al lugar de un accidente de moto. El conductor está sentado en el andén, consciente, sin heridas visibles graves, pero no responde cuando le hablas y tiene la mirada perdida.",
+        opciones: [
+        {
+            texto:
+            "Te acercas de inmediato y empiezas a hacerle preguntas sobre lo que pasó.",
+            nivel_acierto: "parcial",
+            retroalimentacion:
+            "El contacto es correcto, pero antes de indagar sobre el evento conviene primero establecer una conexión básica y verificar orientación, ya que puede estar en shock disociativo.",
+        },
+        {
+            texto:
+            "Verificas primero que no haya riesgo físico inmediato (tránsito, fugas, etc.) antes de acercarte.",
+            nivel_acierto: "correcto",
+            retroalimentacion:
+            "Correcto: la seguridad de la escena y de quien interviene siempre precede al contacto psicológico, incluso cuando la urgencia emocional parece prioritaria.",
+        },
+        {
+            texto:
+            "Esperas a que él hable primero, sin acercarte ni decir nada.",
+            nivel_acierto: "incorrecto",
+            retroalimentacion:
+            "Una persona en shock puede no iniciar contacto por sí misma; el protocolo requiere una aproximación activa pero calmada, no pasividad.",
+        },
+        {
+            texto: "Llamas refuerzos antes de hacer cualquier otra cosa.",
+            nivel_acierto: "parcial",
+            retroalimentacion:
+            "Pedir apoyo es válido y a veces necesario, pero no debería reemplazar la evaluación inmediata de la escena y el primer contacto si estás en capacidad de hacerlo.",
+        },
+        ],
+    },
+    {
+        narrativa:
+        "Confirmas que la escena es segura y te acercas al conductor. Al hablarle no obtienes respuesta verbal: solo te mira fijamente, sin decir nada.",
+        opciones: [
+        {
+            texto:
+            "Te presentas con voz calmada, dices tu nombre y que estás ahí para ayudar, sin exigirle que responda de inmediato.",
+            nivel_acierto: "correcto",
+            retroalimentacion:
+            "Correcto: presentarte y sostener presencia calmada da tiempo a que la persona reaccione a su propio ritmo, sin forzar una respuesta que aún no puede dar.",
+        },
+        {
+            texto:
+            "Le tocas el hombro para llamar su atención antes de seguir hablándole.",
+            nivel_acierto: "parcial",
+            retroalimentacion:
+            "El contacto físico puede ayudar, pero conviene anunciarlo verbalmente antes de tocar a alguien que está desconectado, para no sobresaltarlo.",
+        },
+        {
+            texto:
+            "Le repites la misma pregunta varias veces, cada vez más fuerte.",
+            nivel_acierto: "incorrecto",
+            retroalimentacion:
+            "Elevar el tono y repetir la pregunta no ayuda a alguien en shock a reconectar; puede aumentar la desorientación.",
+        },
+        {
+            texto:
+            "Te sientas a su lado en silencio, sin decir nada, esperando que reaccione por sí solo.",
+            nivel_acierto: "parcial",
+            retroalimentacion:
+            "Acompañar en silencio no está mal, pero en esta fase el protocolo busca una aproximación activa: anunciarte y ofrecer contacto verbal simple.",
+        },
+        ],
+    },
+    {
+        narrativa:
+        "Después de un momento, el conductor empieza a respirar muy rápido y te dice que siente que se va a desmayar.",
+        opciones: [
+        {
+            texto:
+            "Lo guías a respirar despacio, contando en voz alta junto con él y manteniendo contacto visual.",
+            nivel_acierto: "correcto",
+            retroalimentacion:
+            "Correcto: guiar activamente la respiración con una referencia externa (contar en voz alta) ayuda a regular la hiperventilación de forma concreta.",
+        },
+        {
+            texto: "Le dices que se calme porque no es nada grave.",
+            nivel_acierto: "incorrecto",
+            retroalimentacion:
+            "Minimizar lo que siente no reduce la hiperventilación y puede hacer que se sienta poco escuchado.",
+        },
+        {
+            texto:
+            "Le sugieres que se acueste y vas a buscar a alguien más sin quedarte con él.",
+            nivel_acierto: "parcial",
+            retroalimentacion:
+            "Buscar apoyo adicional es válido, pero dejarlo solo justo cuando está hiperventilando interrumpe la regulación que ya se había iniciado.",
+        },
+        {
+            texto:
+            "Le das agua rápidamente sin decir nada sobre su respiración.",
+            nivel_acierto: "incorrecto",
+            retroalimentacion:
+            "El agua no atiende la causa inmediata (hiperventilación); el protocolo requiere abordar la respiración de forma directa.",
+        },
+        ],
+    },
+    ],
+    cierre:
+    "Este escenario recorre tres momentos clave de ABCDE: asegurar el entorno, establecer contacto sin forzar respuesta, y regular una crisis fisiológica (hiperventilación) cuando aparece.",
+},
+{
+    id: "escenario_02",
+    titulo: "Evacuación con varias personas alteradas",
+    categoria: "crisis_colectiva",
+    protocolo_asociado: "ACERCARSE",
+    momentos: [
+    {
+        narrativa:
+        "Durante una evacuación por incendio en un edificio, un grupo de 5 personas está reunido en la calle. Algunas lloran, otras hablan muy rápido y una persona grita pidiendo volver a entrar por una mascota.",
+        opciones: [
+        {
+            texto:
+            "Te diriges primero a la persona que grita, ya que representa el mayor riesgo inmediato.",
+            nivel_acierto: "correcto",
+            retroalimentacion:
+            "Correcto: en un grupo, se prioriza a quien representa mayor riesgo de acción impulsiva (como intentar reingresar), antes de atender reacciones emocionales sin riesgo físico asociado.",
+        },
+        {
+            texto:
+            "Te diriges al grupo completo con un mensaje general de calma antes de individualizar.",
+            nivel_acierto: "parcial",
+            retroalimentacion:
+            "Dar un mensaje grupal de calma es válido, pero no debe retrasar la atención inmediata a quien está en riesgo de actuar de forma peligrosa.",
+        },
+        {
+            texto:
+            "Esperas a que lleguen más rescatistas antes de intervenir con el grupo.",
+            nivel_acierto: "incorrecto",
+            retroalimentacion:
+            "Si estás en capacidad de intervenir, esperar sin actuar deja sin atención una situación de riesgo activo.",
+        },
+        {
+            texto:
+            "Te acercas a quienes lloran primero, porque parecen necesitar más apoyo emocional.",
+            nivel_acierto: "parcial",
+            retroalimentacion:
+            "El llanto no siempre indica el mayor riesgo; priorizar por riesgo físico o de seguridad suele ir antes que por intensidad emocional aparente.",
+        },
+        ],
+    },
+    {
+        narrativa:
+        "Minutos después, ya lograste que el grupo se estabilizara en el punto de encuentro. Una de las personas, todavía muy alterada, insiste en que necesita usar su teléfono para avisar a su familia y empieza a alejarse del punto seguro para buscar señal.",
+        opciones: [
+        {
+            texto:
+            "La dejas ir, entendiendo que necesita comunicarse con su familia.",
+            nivel_acierto: "incorrecto",
+            retroalimentacion:
+            "Permitir que se aleje sola del punto seguro, aunque el motivo sea válido, expone a la persona a un riesgo evitable mientras la situación sigue activa.",
+        },
+        {
+            texto:
+            "La acompañas mientras busca señal o hace la llamada, sin impedirle comunicarse pero sin perderla de vista.",
+            nivel_acierto: "correcto",
+            retroalimentacion:
+            "Correcto: se valida una necesidad legítima sin dejar de sostener la contención y la seguridad; acompañar es preferible a prohibir o ignorar.",
+        },
+        {
+            texto: "Le quitas el teléfono para evitar que se aleje.",
+            nivel_acierto: "incorrecto",
+            retroalimentacion:
+            "Una acción impositiva sobre las pertenencias de la persona vulnera su autonomía y puede escalar la agitación en lugar de reducirla.",
+        },
+        {
+            texto:
+            "Le explicas que primero debe terminar la evacuación y que podrá llamar después.",
+            nivel_acierto: "parcial",
+            retroalimentacion:
+            "Priorizar el procedimiento es razonable, pero descartar sin más la urgencia emocional de contactar a la familia puede generar más resistencia que cooperación.",
+        },
+        ],
+    },
+    {
+        narrativa:
+        "Mientras te alejas del grupo, ya más calmado, otra persona te reclama en tono agresivo que 'nadie está haciendo nada' y se te planta enfrente bloqueándote el paso.",
+        opciones: [
+        {
+            texto:
+            "Mantienes un tono calmado, reconoces su frustración y le explicas brevemente qué se está haciendo, sin discutir.",
+            nivel_acierto: "correcto",
+            retroalimentacion:
+            "Correcto: validar la frustración sin entrar en confrontación mantiene la contención del grupo y evita escalar un conflicto adicional en medio de la crisis.",
+        },
+        {
+            texto:
+            "Le respondes en el mismo tono elevado para dejar claro que no puede hablarte así.",
+            nivel_acierto: "incorrecto",
+            retroalimentacion:
+            "Igualar el tono confrontativo aumenta la tensión justo cuando el objetivo es reducir la activación general del grupo.",
+        },
+        {
+            texto:
+            "Te disculpas repetidamente sin darle ninguna información concreta.",
+            nivel_acierto: "parcial",
+            retroalimentacion:
+            "Disculparse sin aportar información no resuelve la frustración; una explicación breve suele ser más efectiva que solo disculpas.",
+        },
+        {
+            texto: "La ignoras y sigues caminando sin responder.",
+            nivel_acierto: "incorrecto",
+            retroalimentacion:
+            "Ignorar por completo a alguien alterado que te confronta directamente puede escalar la situación en lugar de contenerla.",
+        },
+        ],
+    },
+    ],
+    cierre:
+    "Este escenario recorre tres momentos de ACERCARSE con un grupo: priorizar por riesgo, sostener una necesidad emocional legítima sin perder la contención, y manejar una confrontación sin escalar el conflicto.",
+},
+{
+    id: "escenario_03",
+    titulo: "Niño separado de su familia en una emergencia",
+    categoria: "ninos",
+    protocolo_asociado: "ACERCARSE",
+    momentos: [
+    {
+        narrativa:
+        "En medio de una emergencia comunitaria, encuentras a un niño de aproximadamente 7 años solo, llorando, que no logra decirte dónde están sus padres.",
+        opciones: [
+        {
+            texto:
+            "Te agachas a su altura, le hablas con voz calmada y te presentas antes de hacer preguntas.",
+            nivel_acierto: "correcto",
+            retroalimentacion:
+            "Correcto: con niños, el contacto psicológico requiere ajustar el lenguaje corporal (altura, tono) antes de indagar información, para reducir el miedo inicial.",
+        },
+        {
+            texto:
+            "Le preguntas de inmediato el nombre completo de sus padres para buscarlos.",
+            nivel_acierto: "parcial",
+            retroalimentacion:
+            "La información es necesaria, pero pedirla antes de establecer algo de calma puede aumentar la angustia del niño en ese momento.",
+        },
+        {
+            texto:
+            "Lo dejas donde está y avisas a otros rescatistas sin acercarte tú mismo.",
+            nivel_acierto: "incorrecto",
+            retroalimentacion:
+            "Dejar a un niño solo y angustiado sin ningún contacto directo aumenta su desregulación; el contacto inmediato es parte esencial del protocolo.",
+        },
+        {
+            texto:
+            "Le dices que todo va a estar bien y que sus padres ya vienen, aunque no lo sabes con certeza.",
+            nivel_acierto: "incorrecto",
+            retroalimentacion:
+            "Dar certezas falsas puede generar más desconfianza si no se cumplen; es preferible validar la emoción sin prometer resultados que no puedes garantizar.",
+        },
+        ],
+    },
+    {
+        narrativa:
+        "El niño deja de llorar un poco, pero se aferra fuerte a tu brazo y no quiere soltarte. Te dice que tiene miedo de quedarse solo otra vez.",
+        opciones: [
+        {
+            texto:
+            "Le explicas con calma que te vas a quedar cerca mientras buscan a sus papás, y le das una tarea sencilla (como sostener algo contigo) para darle sensación de control.",
+            nivel_acierto: "correcto",
+            retroalimentacion:
+            "Correcto: dar una tarea concreta y sostener presencia cercana ayuda a un niño a sentir algo de control sin necesidad de prometerle algo que no puedes garantizar.",
+        },
+        {
+            texto:
+            "Le dices, con tono amable, que no puede aferrarse porque tienes que seguir trabajando.",
+            nivel_acierto: "parcial",
+            retroalimentacion:
+            "Es comprensible necesitar moverte, pero retirar el contacto de forma abrupta en ese momento puede aumentar su miedo a quedarse solo.",
+        },
+        {
+            texto: "Le prometes que nunca lo vas a dejar solo.",
+            nivel_acierto: "incorrecto",
+            retroalimentacion:
+            "Prometer algo que no puedes garantizar (quedarte indefinidamente) genera una expectativa que probablemente no podrás cumplir.",
+        },
+        {
+            texto:
+            "Lo cargas y te alejas rápidamente del lugar sin explicarle nada.",
+            nivel_acierto: "incorrecto",
+            retroalimentacion:
+            "Moverlo sin explicación, aunque la intención sea protegerlo, puede aumentar su desorientación en un momento en que ya está asustado.",
+        },
+        ],
+    },
+    {
+        narrativa:
+        "Encuentras a los padres del niño, pero al verlos, notas que la madre está en shock y no reacciona al ver a su hijo.",
+        opciones: [
+        {
+            texto:
+            "Facilitas el reencuentro físico acercando al niño, mientras evalúas brevemente el estado de la madre sin descuidar al niño.",
+            nivel_acierto: "correcto",
+            retroalimentacion:
+            "Correcto: sostener ambos focos —el reencuentro y la evaluación breve de la madre— evita descuidar a cualquiera de los dos en un momento delicado.",
+        },
+        {
+            texto:
+            "Te enfocas solo en la madre porque su estado parece la prioridad.",
+            nivel_acierto: "parcial",
+            retroalimentacion:
+            "El estado de la madre importa, pero dejar sin acompañamiento al niño justo en el momento del reencuentro puede generar más confusión para él.",
+        },
+        {
+            texto:
+            "Entregas al niño y te retiras de inmediato asumiendo que la situación ya está resuelta.",
+            nivel_acierto: "incorrecto",
+            retroalimentacion:
+            "La falta de reacción de la madre es una señal que merece al menos una breve observación antes de dar la situación por cerrada.",
+        },
+        {
+            texto: "Le pides al niño que ayude a 'despertar' a su mamá.",
+            nivel_acierto: "incorrecto",
+            retroalimentacion:
+            "Poner sobre el niño la responsabilidad de reactivar emocionalmente a un adulto invierte los roles de cuidado que el protocolo busca proteger.",
+        },
+        ],
+    },
+    ],
+    cierre:
+    "Este escenario recorre tres momentos de ACERCARSE con un niño: el primer contacto adaptado a su edad, sostener su necesidad de seguridad sin promesas irreales, y manejar un reencuentro familiar que no resulta tan sencillo como se esperaba.",
+},
+{
+    id: "escenario_04",
+    titulo: "Persona con comentarios de riesgo de autolesión",
+    categoria: "riesgo_autolesion",
+    protocolo_asociado: "ABCDE",
+    momentos: [
+    {
+        narrativa:
+        "Atiendes a una persona tras una pérdida reciente. Durante la conversación dice: 'ya no tiene sentido seguir con esto, mejor no estar aquí'.",
+        opciones: [
+        {
+            texto: "Cambias de tema para no hacerla sentir peor.",
+            nivel_acierto: "incorrecto",
+            retroalimentacion:
+            "Evitar el tema deja sin explorar una señal de alarma explícita; el protocolo indica preguntar directamente ante comentarios de este tipo.",
+        },
+        {
+            texto:
+            "Le preguntas directamente si ha pensado en hacerse daño o quitarse la vida.",
+            nivel_acierto: "correcto",
+            retroalimentacion:
+            "Correcto: preguntar directamente ante señales de riesgo no induce la conducta y es necesario para dimensionar el riesgo real y activar la escalación adecuada.",
+        },
+        {
+            texto:
+            "Le dices que no piense en eso y que sea fuerte por su familia.",
+            nivel_acierto: "incorrecto",
+            retroalimentacion:
+            "Minimizar o moralizar el comentario puede cerrar la comunicación justo cuando más se necesita explorar el riesgo.",
+        },
+        {
+            texto:
+            "Sigues escuchando sin preguntar directamente, esperando que ella lo aclare por sí sola.",
+            nivel_acierto: "parcial",
+            retroalimentacion:
+            "Escuchar es necesario, pero ante un comentario explícito de riesgo, no basta con esperar; se requiere una pregunta directa para evaluar el nivel de riesgo.",
+        },
+        ],
+    },
+    {
+        narrativa:
+        "Ella responde que sí lo ha pensado, pero agrega: 'no haría nada, es solo el cansancio hablando'.",
+        opciones: [
+        {
+            texto:
+            "Sigues explorando con calma —frecuencia e intensidad de esos pensamientos— sin dar por cerrada su respuesta.",
+            nivel_acierto: "correcto",
+            retroalimentacion:
+            "Correcto: una respuesta que minimiza el propio riesgo no significa que el riesgo esté descartado; profundizar con calma permite dimensionarlo mejor.",
+        },
+        {
+            texto:
+            "Aceptas su respuesta y cambias de tema para no insistir más.",
+            nivel_acierto: "incorrecto",
+            retroalimentacion:
+            "Dar por resuelto el tema tras una minimización propia deja sin explorar una señal de riesgo que sigue activa.",
+        },
+        {
+            texto:
+            "Le dices que hable con un profesional pronto y das ahí por terminada la conversación.",
+            nivel_acierto: "parcial",
+            retroalimentacion:
+            "La derivación es importante, pero cerrar la conversación de inmediato pierde la oportunidad de seguir evaluando el riesgo en este momento.",
+        },
+        {
+            texto:
+            "Le dices que eso pasa por el estrés y que ya se le va a pasar.",
+            nivel_acierto: "incorrecto",
+            retroalimentacion:
+            "Normalizar el comentario sin explorarlo más resta importancia a una señal que el protocolo indica tomar en serio.",
+        },
+        ],
+    },
+    {
+        narrativa:
+        "Mientras siguen hablando, ella menciona que tiene en casa las pastillas de un familiar y que 'las tiene ahí por si acaso'.",
+        opciones: [
+        {
+            texto:
+            "Le preguntas directamente por el acceso a esos medios y evalúas activar apoyo especializado o acompañamiento inmediato.",
+            nivel_acierto: "correcto",
+            retroalimentacion:
+            "Correcto: mencionar un medio concreto y accesible es una señal de mayor riesgo; preguntar directamente permite dimensionarlo y activar la escalación adecuada.",
+        },
+        {
+            texto:
+            "Cambias de tema para no generar más ansiedad en ella.",
+            nivel_acierto: "incorrecto",
+            retroalimentacion:
+            "Evitar el tema justo cuando aparece un medio concreto deja sin atender la señal de riesgo más importante de la conversación.",
+        },
+        {
+            texto:
+            "Le sugieres que las bote, sin profundizar más en el riesgo inmediato.",
+            nivel_acierto: "parcial",
+            retroalimentacion:
+            "La sugerencia práctica no está mal, pero no reemplaza evaluar directamente el nivel de riesgo y activar el apoyo adecuado.",
+        },
+        {
+            texto:
+            "Asumes que como dijo 'por si acaso' no es urgente y sigues la conversación con normalidad.",
+            nivel_acierto: "incorrecto",
+            retroalimentacion:
+            "Un medio concreto y accesible mencionado explícitamente es justamente lo que el protocolo indica no minimizar.",
+        },
+        ],
+    },
+    ],
+    cierre:
+    "Este escenario recorre tres momentos de escalación dentro de ABCDE: la pregunta directa inicial, sostener la exploración pese a una minimización, y reconocer cuándo un comentario indica acceso concreto a un medio de riesgo.",
+},
+{
+    id: "escenario_05",
+    titulo: "Persona agresiva tras un accidente laboral",
+    categoria: "agresividad",
+    protocolo_asociado: "ABCDE",
+    momentos: [
+    {
+        narrativa:
+        "Tras un accidente en una obra, un compañero del herido está muy alterado, grita contra los responsables de seguridad y golpea una pared cercana.",
+        opciones: [
+        {
+            texto:
+            "Te acercas físicamente de inmediato para calmarlo con contacto (mano en el hombro).",
+            nivel_acierto: "incorrecto",
+            retroalimentacion:
+            "Con una persona en estado de agitación alta, el contacto físico inmediato puede percibirse como amenaza y escalar la agresividad en lugar de reducirla.",
+        },
+        {
+            texto:
+            "Mantienes distancia física prudente, bajas el tono de tu voz y le das espacio antes de intentar hablar.",
+            nivel_acierto: "correcto",
+            retroalimentacion:
+            "Correcto: ante agitación con riesgo de descontrol físico, primero se regula el entorno y la distancia; el contacto verbal calmado precede al contacto físico o emocional más cercano.",
+        },
+        {
+            texto:
+            "Le pides firmemente que se calme porque está asustando a los demás.",
+            nivel_acierto: "incorrecto",
+            retroalimentacion:
+            "Una orden directa en tono de exigencia suele aumentar la resistencia en estados de alta activación, en lugar de disminuirla.",
+        },
+        {
+            texto:
+            "Ignoras su reacción y te enfocas solo en el herido, asumiendo que se calmará solo.",
+            nivel_acierto: "parcial",
+            retroalimentacion:
+            "Priorizar al herido puede ser válido si hay más personal disponible, pero dejar sin ningún manejo a alguien agitado con riesgo de actuar contra sí mismo o terceros no es ideal si estás solo.",
+        },
+        ],
+    },
+    {
+        narrativa:
+        "Tras mantener distancia, el hombre deja de gritar pero empieza a golpearse la cabeza con las manos.",
+        opciones: [
+        {
+            texto:
+            "Le hablas con calma pidiéndole que pare, y le ofreces algo concreto que pueda hacer con las manos mientras mantienes contacto visual y verbal.",
+            nivel_acierto: "correcto",
+            retroalimentacion:
+            "Correcto: dar una alternativa concreta a la conducta autolesiva, junto con presencia calmada, ayuda a redirigir la descarga física sin confrontación.",
+        },
+        {
+            texto:
+            "Lo sujetas físicamente para detenerlo, sin advertirle antes.",
+            nivel_acierto: "incorrecto",
+            retroalimentacion:
+            "Sujetar sin previo aviso a alguien ya agitado puede interpretarse como agresión y escalar el descontrol en vez de frenarlo.",
+        },
+        {
+            texto: "Le gritas que se detenga.",
+            nivel_acierto: "incorrecto",
+            retroalimentacion:
+            "Elevar el tono ante una conducta autolesiva suele aumentar la activación en lugar de interrumpirla.",
+        },
+        {
+            texto:
+            "Te alejas asumiendo que no es tu responsabilidad intervenir.",
+            nivel_acierto: "parcial",
+            retroalimentacion:
+            "Si estás en capacidad de intervenir de forma segura, retirarte deja sin atención una conducta de riesgo inmediato.",
+        },
+        ],
+    },
+    {
+        narrativa:
+        "Se calma un poco, pero te dice que fue su culpa que su compañero se accidentara y que 'no puede vivir con eso'.",
+        opciones: [
+        {
+            texto:
+            "Validas su emoción sin confirmar ni negar la culpa, y lo ayudas a enfocarse en lo que necesita ahora mismo.",
+            nivel_acierto: "correcto",
+            retroalimentacion:
+            "Correcto: en el momento de la crisis no es el espacio para juzgar responsabilidades; sostener la emoción y volver al presente es lo que corresponde a esta fase.",
+        },
+        {
+            texto:
+            "Le explicas con detalles técnicos por qué no fue su culpa.",
+            nivel_acierto: "incorrecto",
+            retroalimentacion:
+            "Entrar en detalles técnicos del accidente en este momento no atiende la carga emocional que está expresando.",
+        },
+        {
+            texto:
+            "Le dices que no piense en eso ahora, sin explorar más el peso emocional del comentario.",
+            nivel_acierto: "parcial",
+            retroalimentacion:
+            "Restar importancia sin validar la emoción puede dejarlo sintiendo que su carga no fue escuchada.",
+        },
+        {
+            texto:
+            "Le preguntas de inmediato detalles de cómo ocurrió el accidente.",
+            nivel_acierto: "incorrecto",
+            retroalimentacion:
+            "Indagar en el relato detallado del evento en plena crisis emocional puede intensificar la angustia en vez de contenerla.",
+        },
+        ],
+    },
+    ],
+    cierre:
+    "Este escenario recorre tres momentos de manejo de agitación en ABCDE: regular distancia y tono ante la ira, redirigir una conducta autolesiva emergente, y sostener una carga emocional de culpa sin entrar a juzgarla.",
+},
+{
+    id: "escenario_06",
+    titulo: "Adulto mayor desorientado tras un sismo",
+    categoria: "adultos_mayores",
+    protocolo_asociado: "ACERCARSE",
+    momentos: [
+    {
+        narrativa:
+        "Después de un sismo, encuentras a una señora de edad avanzada sentada en la acera, visiblemente confundida, repitiendo la misma pregunta sobre qué pasó.",
+        opciones: [
+        {
+            texto:
+            "Le respondes la pregunta cada vez que la repite, con calma y sin mostrar impaciencia.",
+            nivel_acierto: "correcto",
+            retroalimentacion:
+            "Correcto: la repetición de preguntas es común en estados de confusión aguda; responder con paciencia ayuda a orientarla progresivamente sin generar más ansiedad.",
+        },
+        {
+            texto:
+            "Le explicas una sola vez y le dices que preste más atención la próxima vez.",
+            nivel_acierto: "incorrecto",
+            retroalimentacion:
+            "Corregir o exigir atención en un estado de confusión post-evento no ayuda a la orientación y puede generar frustración o vergüenza en la persona.",
+        },
+        {
+            texto:
+            "Evitas responder y buscas rápidamente a un familiar para que se encargue.",
+            nivel_acierto: "parcial",
+            retroalimentacion:
+            "Buscar apoyo familiar es válido, pero no debería sustituir un mínimo de contacto y contención mientras tanto, si estás en capacidad de ofrecerlo.",
+        },
+        {
+            texto:
+            "Le hablas más fuerte y despacio, asumiendo que no escucha bien.",
+            nivel_acierto: "parcial",
+            retroalimentacion:
+            "Puede haber una razón médica de fondo, pero asumir un problema auditivo sin verificarlo antes de ajustar el tono no atiende la causa real de la confusión (probablemente relacionada al evento vivido).",
+        },
+        ],
+    },
+    {
+        narrativa:
+        "Después de orientarla varias veces, ella intenta levantarse rápido para 'ir a ver la casa', pero se tambalea.",
+        opciones: [
+        {
+            texto:
+            "La sostienes con cuidado y le pides que se quede sentada un momento más, ofreciéndole ayuda para ir cuando esté más estable.",
+            nivel_acierto: "correcto",
+            retroalimentacion:
+            "Correcto: contener físicamente con cuidado y ofrecer una alternativa (ir juntos después) protege su seguridad sin negar su necesidad de moverse.",
+        },
+        {
+            texto: "La dejas ir sola porque insiste mucho.",
+            nivel_acierto: "incorrecto",
+            retroalimentacion:
+            "Dejarla caminar sola tras tambalearse expone a un riesgo físico evitable, incluso si la insistencia es fuerte.",
+        },
+        {
+            texto:
+            "La sujetas con firmeza y le dices que no puede moverse en ningún momento.",
+            nivel_acierto: "parcial",
+            retroalimentacion:
+            "Restringir por completo el movimiento sin ofrecer ninguna alternativa puede aumentar su frustración y resistencia.",
+        },
+        {
+            texto: "Vas tú a revisar la casa y la dejas sola esperando.",
+            nivel_acierto: "incorrecto",
+            retroalimentacion:
+            "Dejar sola a una persona confundida que recién intentó levantarse de forma inestable no es seguro para ella.",
+        },
+        ],
+    },
+    {
+        narrativa:
+        "Finalmente logras que se quede tranquila, pero te dice que no recuerda si alguien más vivía con ella en la casa.",
+        opciones: [
+        {
+            texto:
+            "Le haces preguntas simples y concretas, una a la vez, para ayudar a reconstruir la información, y buscas apoyo para verificarla.",
+            nivel_acierto: "correcto",
+            retroalimentacion:
+            "Correcto: preguntas simples y secuenciales facilitan la orientación en estados de confusión, mejor que preguntas amplias o múltiples a la vez.",
+        },
+        {
+            texto:
+            "Le insistes en que haga memoria por su cuenta, sin guiar el proceso.",
+            nivel_acierto: "parcial",
+            retroalimentacion:
+            "Pedir que recuerde sin ninguna guía puede resultar frustrante para alguien que ya está confundida.",
+        },
+        {
+            texto: "Asumes que vive sola para avanzar más rápido.",
+            nivel_acierto: "incorrecto",
+            retroalimentacion:
+            "Asumir información no confirmada en un contexto de emergencia puede dejar sin atención a alguien más que dependía de ella.",
+        },
+        {
+            texto:
+            "Le haces muchas preguntas seguidas sobre distintos temas de su vida.",
+            nivel_acierto: "incorrecto",
+            retroalimentacion:
+            "Encadenar muchas preguntas distintas puede aumentar la confusión en vez de ayudar a orientarla.",
+        },
+        ],
+    },
+    ],
+    cierre:
+    "Este escenario recorre tres momentos de ACERCARSE con un adulto mayor: orientación paciente, contención física ante un intento de movimiento inseguro, y obtención cuidadosa de información cuando la memoria falla.",
+},
+{
+    id: "escenario_07",
+    titulo: "Persona herida y en crisis emocional simultánea",
+    categoria: "riesgo_fisico_concurrente",
+    protocolo_asociado: "ABCDE",
+    momentos: [
+    {
+        narrativa:
+        "Atiendes a alguien con una herida menor en el brazo que, además, está teniendo una crisis de llanto intenso y dice que no puede respirar.",
+        opciones: [
+        {
+            texto:
+            "Priorizas calmar la crisis emocional antes de revisar la herida, porque la persona está muy angustiada.",
+            nivel_acierto: "parcial",
+            retroalimentacion:
+            "La contención emocional es importante, pero cuando hay una condición física visible que requiere valoración, esta debe evaluarse en paralelo, no posponerse por completo.",
+        },
+        {
+            texto:
+            "Evalúas brevemente la herida mientras aplicas técnicas simples de respiración para ayudar a regular la crisis.",
+            nivel_acierto: "correcto",
+            retroalimentacion:
+            "Correcto: ABCDE contempla atender lo físico y lo psicológico de forma simultánea cuando es posible, sin que uno excluya al otro.",
+        },
+        {
+            texto:
+            "Le dices que respire profundo y esperas a que se calme antes de tocar la herida.",
+            nivel_acierto: "incorrecto",
+            retroalimentacion:
+            "Posponer por completo la valoración física por esperar la calma emocional puede retrasar la atención a una condición que sí requiere revisión.",
+        },
+        {
+            texto:
+            "Solo revisas la herida y no mencionas nada sobre su dificultad para respirar.",
+            nivel_acierto: "incorrecto",
+            retroalimentacion:
+            "Ignorar la manifestación de ansiedad (la sensación de falta de aire) deja sin atender un componente central de la crisis que también forma parte del protocolo.",
+        },
+        ],
+    },
+    {
+        narrativa:
+        "Mientras revisas la herida y regulas su respiración, ella te dice que también le duele mucho el pecho.",
+        opciones: [
+        {
+            texto:
+            "Interrumpes la contención emocional para evaluar ese síntoma nuevo como posible prioridad médica.",
+            nivel_acierto: "correcto",
+            retroalimentacion:
+            "Correcto: un síntoma físico nuevo y potencialmente serio como dolor de pecho requiere evaluación inmediata, incluso si interrumpe el trabajo emocional en curso.",
+        },
+        {
+            texto:
+            "Continúas con la técnica de respiración, asumiendo que el dolor es solo por la ansiedad.",
+            nivel_acierto: "incorrecto",
+            retroalimentacion:
+            "Asumir sin evaluar que un síntoma físico nuevo es solo ansiedad puede dejar sin atención una condición médica real.",
+        },
+        {
+            texto:
+            "Le preguntas por el dolor, pero sigues enfocado principalmente en la herida del brazo.",
+            nivel_acierto: "parcial",
+            retroalimentacion:
+            "Preguntar es un buen inicio, pero un síntoma como el dolor de pecho amerita pasar a ser el foco principal, no quedar en segundo plano.",
+        },
+        {
+            texto:
+            "Le dices que respire hondo porque el dolor de pecho es normal en momentos de estrés.",
+            nivel_acierto: "incorrecto",
+            retroalimentacion:
+            "Normalizar un síntoma físico nuevo sin evaluarlo puede retrasar una atención médica que podría ser necesaria.",
+        },
+        ],
+    },
+    {
+        narrativa:
+        "Llegan más personas ofreciendo ayuda, pero todas dan indicaciones distintas y ella se ve cada vez más confundida y angustiada.",
+        opciones: [
+        {
+            texto:
+            "Te haces cargo de coordinar brevemente con los demás, dando una sola indicación clara a la persona.",
+            nivel_acierto: "correcto",
+            retroalimentacion:
+            "Correcto: unificar la comunicación reduce la sobrecarga de información y le devuelve claridad a la persona en un momento de alta angustia.",
+        },
+        {
+            texto:
+            "Dejas que cada uno actúe por su cuenta para no generar conflicto entre quienes ayudan.",
+            nivel_acierto: "incorrecto",
+            retroalimentacion:
+            "Permitir indicaciones contradictorias sin coordinación aumenta la confusión de la persona afectada, que es a quien se debe proteger primero.",
+        },
+        {
+            texto:
+            "Le pides a la persona que decida a quién hacerle caso.",
+            nivel_acierto: "parcial",
+            retroalimentacion:
+            "Delegar esa decisión en alguien ya angustiado añade una carga cognitiva que no le corresponde asumir en ese momento.",
+        },
+        {
+            texto:
+            "Te retiras para dejar que los demás se encarguen de la situación.",
+            nivel_acierto: "incorrecto",
+            retroalimentacion:
+            "Retirarte en medio de una coordinación desordenada deja sin resolver la confusión que ya se generó.",
+        },
+        ],
+    },
+    ],
+    cierre:
+    "Este escenario recorre tres momentos de ABCDE con componente físico y emocional simultáneo: atender ambos en paralelo, reconocer cuándo un síntoma nuevo cambia la prioridad, y coordinar ayuda externa para no sumar confusión.",
+},
+{
+    id: "escenario_08",
+    titulo: "Grupo familiar dividido en reacciones tras una emergencia",
+    categoria: "crisis_colectiva",
+    protocolo_asociado: "ACERCARSE",
+    momentos: [
+    {
+        narrativa:
+        "En una emergencia doméstica, encuentras a una familia de 4 personas: el padre está en silencio absoluto, la madre llora sin parar, un adolescente insiste en ayudar activamente y un niño pequeño se aferra a la madre sin hablar.",
+        opciones: [
+        {
+            texto:
+            "Te enfocas primero en quien llora más fuerte, porque parece necesitar más atención inmediata.",
+            nivel_acierto: "parcial",
+            retroalimentacion:
+            "La intensidad visible de la emoción no siempre indica quién necesita atención prioritaria; el silencio absoluto del padre también puede ser una señal de riesgo que merece observación.",
+        },
+        {
+            texto:
+            "Haces una lectura rápida de todo el grupo antes de decidir a quién acercarte primero.",
+            nivel_acierto: "correcto",
+            retroalimentacion:
+            "Correcto: ante un grupo con reacciones distintas, una breve lectura general (quién está en mayor riesgo o más desconectado) antes de actuar evita priorizar solo por lo más visible o ruidoso.",
+        },
+        {
+            texto:
+            "Le das al adolescente una tarea de apoyo inmediatamente, ya que se ofrece a ayudar.",
+            nivel_acierto: "parcial",
+            retroalimentacion:
+            "Dar un rol activo puede ser útil, pero conviene primero verificar brevemente su propio estado emocional antes de asignarle responsabilidades sobre otros.",
+        },
+        {
+            texto:
+            "Te acercas al niño primero porque es el más pequeño y vulnerable.",
+            nivel_acierto: "parcial",
+            retroalimentacion:
+            "La vulnerabilidad por edad es un factor válido a considerar, pero no debería aplicarse automáticamente sin antes leer la situación completa del grupo.",
+        },
+        ],
+    },
+    {
+        narrativa:
+        "Te acercas primero al padre, que sigue en silencio. Al hablarle no responde ni te mira, solo mueve la cabeza levemente.",
+        opciones: [
+        {
+            texto:
+            "Te quedas presente en silencio a su lado, validando que no necesita hablar todavía, sin dejar de estar disponible.",
+            nivel_acierto: "correcto",
+            retroalimentacion:
+            "Correcto: sostener presencia sin exigir respuesta respeta su ritmo y mantiene la puerta abierta para cuando esté listo para hablar.",
+        },
+        {
+            texto:
+            "Insistes con varias preguntas seguidas para que reaccione.",
+            nivel_acierto: "incorrecto",
+            retroalimentacion:
+            "Insistir con preguntas ante un silencio marcado puede aumentar su cierre en lugar de facilitar la conexión.",
+        },
+        {
+            texto:
+            "Te vas rápido a atender a los demás, asumiendo que él está bien porque no muestra reacción visible.",
+            nivel_acierto: "parcial",
+            retroalimentacion:
+            "La falta de reacción no equivale a estar bien; retirarte sin ninguna palabra de cierre puede dejarlo sin ningún tipo de sostén.",
+        },
+        {
+            texto: "Le dices que debería reaccionar por sus hijos.",
+            nivel_acierto: "incorrecto",
+            retroalimentacion:
+            "Exigirle una reacción específica no respeta su proceso emocional y puede sumar presión a lo que ya está viviendo.",
+        },
+        ],
+    },
+    {
+        narrativa:
+        "El adolescente, frustrado porque nadie le ha dado una tarea, decide ir por su cuenta a ayudar a los vecinos sin avisarle a nadie.",
+        opciones: [
+        {
+            texto:
+            "Lo detienes con calma, reconoces sus ganas de ayudar y le das un rol concreto y seguro dentro del grupo familiar.",
+            nivel_acierto: "correcto",
+            retroalimentacion:
+            "Correcto: canalizar su energía en un rol útil y seguro atiende su necesidad de participar sin dejarlo actuar sin supervisión.",
+        },
+        {
+            texto: "Lo regañas por haberse ido sin permiso.",
+            nivel_acierto: "incorrecto",
+            retroalimentacion:
+            "Regañarlo en medio de la emergencia puede generar resistencia y no atiende la necesidad real que motivó su acción.",
+        },
+        {
+            texto: "Lo dejas ir porque parece capaz de cuidarse solo.",
+            nivel_acierto: "parcial",
+            retroalimentacion:
+            "Su capacidad aparente no elimina el riesgo de que actúe sin coordinación en medio de una situación aún inestable.",
+        },
+        {
+            texto: "No dices nada y sigues con el resto de la familia.",
+            nivel_acierto: "incorrecto",
+            retroalimentacion:
+            "No intervenir deja sin manejo tanto su necesidad de ayudar como el riesgo de que actúe sin ninguna guía.",
+        },
+        ],
+    },
+    ],
+    cierre:
+    "Este escenario recorre tres momentos de ACERCARSE con un grupo familiar: leer al conjunto antes de individualizar, sostener el silencio de quien no habla, y canalizar la necesidad de participar de quien sí quiere actuar.",
+},
+];
+
+export const PROTOCOLS = {
+ACERCARSE: {
+    nombre: "ACERCARSE",
+    fuente: "Muñoz, Ausín y Pérez-Santos (2004/2007)",
+    nota: "Las fuentes académicas describen 8 etapas para este protocolo. Conviene ajustar esta lista con el material exacto de la instructora antes de usarla como referencia final.",
+    pasos: [
+    {
+        nombre: "Ambiente",
+        desc: "Hacerse una imagen general de la escena: qué ocurrió, quiénes están presentes y qué necesidades inmediatas hay.",
+    },
+    {
+        nombre: "Contacto",
+        desc: "Establecer una relación de respeto y distanciamiento psicológico adecuado con la persona afectada.",
+    },
+    {
+        nombre: "Evaluación",
+        desc: "Valorar el estado de la persona: nivel de afectación, riesgo y recursos con los que cuenta.",
+    },
+    {
+        nombre: "Restablecimiento emocional",
+        desc: "Ayudar a reducir la activación emocional mediante escucha activa y técnicas de desactivación fisiológica.",
+    },
+    {
+        nombre: "Comprensión de la crisis",
+        desc: "Facilitar que la persona entienda lo ocurrido y normalice sus reacciones ante el evento.",
+    },
+    {
+        nombre: "Activación de recursos",
+        desc: "Identificar y movilizar la red de apoyo social y los recursos personales de la persona.",
+    },
+    {
+        nombre: "Recuperación del funcionamiento",
+        desc: "Apoyar la vuelta a actividades básicas y la toma de decisiones prácticas inmediatas.",
+    },
+    {
+        nombre: "Seguimiento",
+        desc: "Plantear un seguimiento a corto o mediano plazo, o derivar si el caso lo requiere.",
+    },
+    ],
+},
+ABCDE: {
+    nombre: "ABCDE",
+    fuente:
+    "Referencia general del curso — pendiente de contrastar con el manual exacto",
+    nota: "Este protocolo se enseña con contenido específico del curso. Los pasos que siguen son un esquema general de trabajo y deben reemplazarse por la secuencia exacta y la terminología que usó la instructora antes de tomarlos como referencia final.",
+    pasos: [
+    {
+        nombre: "Seguridad del entorno",
+        desc: "Confirmar que la escena es segura para intervenir, tanto para la persona afectada como para quien ayuda.",
+    },
+    {
+        nombre: "Contacto y contención inicial",
+        desc: "Aproximarse con calma, presentarse y ofrecer una presencia estable.",
+    },
+    {
+        nombre: "Evaluación breve",
+        desc: "Identificar el estado físico y emocional de la persona, y detectar señales de riesgo.",
+    },
+    {
+        nombre: "Desactivación / regulación",
+        desc: "Aplicar técnicas simples de respiración o anclaje para reducir la activación.",
+    },
+    {
+        nombre: "Enlace y cierre",
+        desc: "Conectar a la persona con su red de apoyo o los servicios pertinentes, y cerrar la intervención.",
+    },
+    ],
+},
+};
