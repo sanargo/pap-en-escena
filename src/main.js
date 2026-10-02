@@ -200,9 +200,9 @@ function buildFooter() {
 function buildHome() {
     const frag = document.createElement("section");
     frag.className = "view-content-landing";
-    const note = document.createElement("div");
-    note.className = "note";
-    note.innerHTML = `
+    const intro = document.createElement("div");
+    intro.className = "intro";
+    intro.innerHTML = `
     <div class="module">
     <span class="module__lightbulb"></span>
     <span>MÓDULO DE FORMACIÓN</span>
@@ -214,7 +214,7 @@ function buildHome() {
     <img src="${MalteseCross}" alt="Logo">   
     </div>
     `;
-    frag.appendChild(note);
+    frag.appendChild(intro);
     
     const chips = document.createElement("div");
     chips.className = "chips";

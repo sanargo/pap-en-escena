@@ -14,6 +14,7 @@
   --ink-soft: #6a8aa0;
   --text-muted: #6a8aa0;
   --shadow: rgba(35, 40, 31, 0.16);
+  --green: #49d475;
 
   /* TAGS */
   --tag-ind: #4792d8;
@@ -43,20 +44,6 @@
   }
 }
 
-@keyframes brilloAzul {
-  0%,
-  100% {
-    box-shadow:
-      0 0 6px var(--blue),
-      0 0 12px var(--blue-dim);
-  }
-  50% {
-    box-shadow:
-      0 0 15px var(--blue-bright),
-      0 0 25px var(--border-gold);
-  }
-}
-
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
     --bg: #071220;
@@ -68,7 +55,7 @@
   }
 }
 :root[data-theme="dark"] {
-  --bg: ##071220;
+  --bg: #071220;
   --bg-panel: #0c1c2e;
   --border: rgba(255, 255, 255, 0.07);
   --text: #dde8f0;
@@ -85,7 +72,7 @@
 body {
   margin: 0;
   background: var(--bg);
-  color: var(--ink);
+  color: var(--ink-soft);
   font-family:
     "Work Sans",
     -apple-system,
@@ -173,7 +160,7 @@ nav.toplinks button:focus-visible {
 
 /* Title */
 
-.note {
+.intro {
   grid-row: 2 / 3;
   background: var(--bg-panel);
   border-bottom: 1px solid var(--border);
@@ -181,12 +168,12 @@ nav.toplinks button:focus-visible {
   margin-bottom: 24px;
 }
 
-.note > .module {
+.intro > .module {
   display: flex;
   align-items: center;
 }
 
-.note > .module > .module__lightbulb {
+.intro > .module > .module__lightbulb {
   width: 6.5px;
   height: 6.5px;
   background: var(--gold);
@@ -196,7 +183,7 @@ nav.toplinks button:focus-visible {
   margin-right: 8px;
 }
 
-.note > .module > span {
+.intro > .module > span {
   font-family: var(--font-body);
   font-size: 0.7rem;
   font-weight: 700;
@@ -204,7 +191,7 @@ nav.toplinks button:focus-visible {
   color: var(--gold);
 }
 
-.note > h2 {
+.intro > h2 {
   font-family: var(--font-display);
   font-size: 3.8rem;
   letter-spacing: 2.56px;
@@ -212,25 +199,25 @@ nav.toplinks button:focus-visible {
   margin: 0;
 }
 
-.note > .note__line {
+.intro > .note__line {
   width: 5rem;
   height: 2px;
   background-color: var(--gold);
 }
 
-.note > p {
+.intro > p {
   width: 30rem;
   font-family: var(--font-body);
   font-size: 1rem;
   color: var(--text-muted);
 }
 
-.note > .note__decorative-cross {
+.intro > .note__decorative-cross {
   position: relative;
   height: max-content;
 }
 
-.note > .note__decorative-cross > img {
+.intro > .note__decorative-cross > img {
   z-index: 2;
   position: absolute;
   width: 20rem;
@@ -461,7 +448,6 @@ nav.toplinks button:focus-visible {
   flex-shrink: 0;
   width: 22px;
   height: 22px;
-  border: 1.5px solid var(--line-strong);
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -473,9 +459,9 @@ nav.toplinks button:focus-visible {
   cursor: default;
 }
 .option-row.chosen.correcto {
-  border: 1px solid color-mix(in srgb, var(--cat-color) 30%, transparent);
-  background-color: color-mix(in srgb, var(--cat-color) 10%, transparent);
-  color: var(--cat-color);
+  border: 1px solid color-mix(in srgb, var(--green) 30%, transparent);
+  background-color: color-mix(in srgb, var(--green) 10%, transparent);
+  color: var(--green);
 }
 .option-row.chosen.parcial {
   border: 1px solid color-mix(in srgb, var(--gold-bright) 30%, transparent);
@@ -499,9 +485,9 @@ nav.toplinks button:focus-visible {
   border-radius: 8px;
 }
 .feedback.correcto {
-  border: 1px solid color-mix(in srgb, var(--cat-color) 30%, transparent);
-  background-color: color-mix(in srgb, var(--cat-color) 10%, transparent);
-  color: var(--cat-color);
+  border: 1px solid color-mix(in srgb, var(--green) 30%, transparent);
+  background-color: color-mix(in srgb, var(--green) 10%, transparent);
+  color: var(--green);
 }
 .feedback.parcial {
   border: 1px solid color-mix(in srgb, var(--gold-bright) 30%, transparent);
@@ -528,7 +514,6 @@ nav.toplinks button:focus-visible {
 .closure {
   font-size: 0.88rem;
   color: var(--ink-soft);
-  border-top: 1px solid var(--line);
   margin: 30px 0;
   padding: 0 20px;
 }
@@ -575,7 +560,7 @@ nav.toplinks button:focus-visible {
   font-size: 0.9rem;
   padding: 10px;
   color: var(--bg);
-  border: 1px solid var(--line-strong);
+  border: 0;
   background: transparent;
   color: var(--ink-soft);
   cursor: pointer;
@@ -587,12 +572,11 @@ nav.toplinks button:focus-visible {
 }
 
 .protocol-tabs button.active {
-  background: var(--ink);
   color: var(--text);
-  border-color: var(--ink);
 }
 
 .note {
+  font-family: var(--font-body);
   color: var(--ink-soft);
   background-color: var(--bg);
   padding: 1.5rem;
@@ -676,13 +660,13 @@ footer.foot span {
   header > .logo-container > .web-title-container > h1.brand {
     font-size: 1.3rem;
   }
-  .note {
+  .intro {
     padding: 40px;
   }
-  .note > h2 {
+  .intro > h2 {
     font-size: 2.8rem;
   }
-  .note > p {
+  .intro > p {
     width: 17rem;
     font-family: var(--font-body);
     font-size: 1rem;
